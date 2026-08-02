@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio | Tech & Design Enthusiast</title>
+    <meta name="description" content="Portofolio mahasiswa, menampilkan proyek eksplorasi dan karya terbaru.">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Preloader Layar Pemuat -->
+    <div id="preloader">
+        <div class="logo preloader-logo">JM</div>
+    </div>
+
+    <!-- Custom Sci-Fi Cursor -->
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+
+    <!-- Background Canvas Interactive -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- 3D Solar System Background -->
+    <div class="solar-system" id="solar-system">
+        <div class="earth-orbit">
+            <div class="earth-container">
+                <div class="earth-globe"></div>
+                <div class="moon-orbit">
+                    <div class="moon-container">
+                        <div class="moon-globe"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="space-galaxy"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">JM</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#experience">Mission Log</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-content fade-in">
+                <div class="profile-photo">
+                    <!-- Ganti src di bawah dengan nama file foto profil Anda (misal: assets/foto-saya.jpg) -->
+                    <img src="/assets/Foto_Profil.jpg" alt="Foto_Profil.jpg">
+                </div>
+                <h1>Hello, I am <span class="highlight">Juan Milton</span> </h1>
+                <p class="subtitle">Computer Science Student @ Bina Nusantara University</p>
+                <p class="description">A highly motivated student with a strong passion in technology especially for hardware and software development. Possesses a solid foundation in algorithm logic, data structures, and computational problem-solving. Highly adaptable to new programming languages and eager to contribute collaboratively in the software development life cycle.</p>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">View Portfolio</a>
+                    <a href="assets/CV.pdf" download="CV_Juan_Milton.pdf" class="btn btn-outline">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 5px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download CV
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about">
+            <div class="container reveal">
+                <h2>About Me</h2>
+                <div class="about-grid">
+                    <div class="about-text">
+                        <p>Currently pursuing a Bachelor of Computer Science at Bina Nusantara University. My coursework includes Software Engineering, Machine Learning, Human Computer Interaction, Database Technology, and Algorithm Programming. I am always exploring new technologies, from full-stack web development to IoT and Robotics.</p>
+                        <ul class="skills">
+                        <li><span>🌐</span> Full Stack Dev</li>
+                        <li><span>🐍</span> Python & Machine Learning</li>
+                        <li><span>💾</span> MySQL & Databases</li>
+                        <li><span>🎨</span> UI/UX (Figma)</li>
+                        <li><span>⚙️</span> Git, Docker & Agile</li>
+                    </ul>
+                    </div>
+                    <!-- Angka ini diubah dari 'pengalaman kerja' menjadi 'pencapaian mahasiswa' -->
+                    <div class="about-glass">
+                        <div class="glass-card">
+                            <h3>3.45</h3>
+                            <p>Current GPA</p>
+                        </div>
+                        <div class="glass-card">
+                            <h3>2024</h3>
+                            <p>Bina Nusantara Univ.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="experience">
+            <div class="container reveal">
+                <h2>Mission Log</h2>
+                <p style="text-align: center; color: var(--text-muted); margin-bottom: 4rem;">Journey, organizational experience, and achievements.</p>
+                
+                <div class="timeline">
+                    <!-- Item Kiri -->
+                    <div class="timeline-item left">
+                        <div class="timeline-content glass-card">
+                            <h3 style="font-size: 1.5rem;">Head of Event Committee</h3>
+                            <p class="date highlight">"We Grow Together" Gathering</p>
+                            <p>Managed event planning and coordinated committee members to ensure the successful delivery and execution of the gathering.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Item Kanan -->
+                    <div class="timeline-item right">
+                        <div class="timeline-content glass-card">
+                            <h3 style="font-size: 1.5rem;">Treasurer</h3>
+                            <p class="date highlight">New Student Admission Committee (KMK Bekasi)</p>
+                            <p>Handled budget allocation, expense monitoring, and financial accountability for KMK New Student Admission activities in the Bekasi Region.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="projects">
+            <div class="container reveal">
+                <h2>Featured Projects 🎨</h2>
+                <div class="project-grid">
+                    <div class="project-card" data-title="KasaZa POS & Inventory" data-image="placeholder-a" data-desc="Developed a high-performance, single-page Point of Sale (POS) and inventory application using React, Vite, and Firebase. Features seamless real-time data synchronization across multiple devices. Designed a premium, fully responsive UI utilizing glassmorphism aesthetics and custom CSS variables. Engineered a robust multi-branch management system equipped with Role-Based Access Control (RBAC), integrated camera barcode scanning, and dynamic receipt generation." data-problem="Manual recording of inventory and sales often led to data discrepancies, slow checkout processes, and inability to track multi-branch performance in real-time." data-github="https://github.com/kumay112/KasaZa" data-live="https://pos-app-blue-mu.vercel.app/">
+                        <div class="project-img placeholder-a"></div>
+                        <div class="project-info">
+                            <h3>KasaZa (Full Stack)</h3>
+                            <p>High-performance POS application with real-time sync, RBAC, and barcode scanning.</p>
+                            <div class="card-links">
+                                <a href="https://pos-app-blue-mu.vercel.app/" target="_blank" class="card-link" onclick="event.stopPropagation()">🔗 Live Demo</a>
+                                <a href="https://github.com/kumay112/KasaZa" target="_blank" class="card-link" onclick="event.stopPropagation()">💻 GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card" data-title="WomenSpace Social Media" data-image="placeholder-b" data-desc="Collaborated with a team to develop a full-stack social media platform for women using Flask, JavaScript, SQLite, and JWT authentication. Engineered secure user authentication, account verification workflows, and media upload capabilities. Implemented core social networking features including posts, replies, reposts, likes, trending content discovery, and an ML-based face verification integration." data-problem="A lack of safe, dedicated social spaces for women, exacerbated by fake accounts and harassment on mainstream platforms." data-github="https://github.com/kumay112/Women_Space" data-live="https://womenspace.app">
+                        <div class="project-img placeholder-b"></div>
+                        <div class="project-info">
+                            <h3>WomenSpace (Web & ML)</h3>
+                            <p>Full-stack social platform featuring JWT authentication and ML face verification.</p>
+                            <div class="card-links">
+                                <a href="https://womenspace.app" target="_blank" class="card-link" onclick="event.stopPropagation()">🔗 Live Demo</a>
+                                <a href="https://github.com/kumay112/Women_Space" target="_blank" class="card-link" onclick="event.stopPropagation()">💻 GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card" data-title="Juan-Port.me Portfolio" data-image="placeholder-c" data-desc="Developed a fully responsive front-end web portfolio styled as a futuristic space using HTML, CSS, JavaScript. Designed a modern dark-mode UI featuring neon glassmorphism aesthetics, custom DOM cursor tracking, and scroll-reveal animations. Integrated seamless email routing using the Fetch API." data-problem="The need to stand out among thousands of fresh graduates by showcasing not just static information, but interactive coding skills and a deep understanding of UI/UX." data-github="https://github.com/kumay112/Juan-Port.me" data-live="https://juan-port.me">
+                        <div class="project-img placeholder-c"></div>
+                        <div class="project-info">
+                            <h3>Juan-Port.me</h3>
+                            <p>Interactive sci-fi portfolio featuring custom canvas physics and AJAX integrations.</p>
+                            <div class="card-links">
+                                <a href="https://juan-port.me" target="_blank" class="card-link" onclick="event.stopPropagation()">🔗 Live Demo</a>
+                                <a href="https://github.com/kumay112/Juan-Port.me" target="_blank" class="card-link" onclick="event.stopPropagation()">💻 GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card" data-title="Production Forecasting System" data-image="placeholder-d" data-desc="A production forecasting and capacity planning project that uses polynomial regression to model production trends, evaluate forecasting accuracy, and predict future capacity requirements for warehouse expansion." data-github="https://github.com/kumay112/Production-Forecasting-System" data-live="https://colab.research.google.com/drive/15gqVRkqw_ETDCoYsAo5wbLB4vtCKOpxf?usp=sharing#scrollTo=ZiCYdWRKlUga">
+                        <div class="project-img placeholder-d"></div>
+                        <div class="project-info">
+                            <h3>Production Forecasting System</h3>
+                            <p>A production forecasting and capacity planning project that uses polynomial regression to model production trends, evaluate forecasting accuracy, and predict future capacity requirements for warehouse expansion.</p>
+                            <div class="card-links">
+                                <a href="https://colab.research.google.com/drive/15gqVRkqw_ETDCoYsAo5wbLB4vtCKOpxf?usp=sharing#scrollTo=ZiCYdWRKlUga" target="_blank" class="card-link" onclick="event.stopPropagation()">🔗 View Code</a>
+                                <a href="https://github.com/kumay112/Production-Forecasting-System" target="_blank" class="card-link" onclick="event.stopPropagation()">💻 GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card" data-title="Builder Buddy" data-image="placeholder-e" data-desc="A construction management system designed to improve project efficiency and transparency through features such as automated cost estimation, task management, worker attendance tracking, and real-time progress monitoring." data-github="https://github.com/kumay112/Builder-Buddy" data-live="https://www.figma.com/proto/TiaMTjEZe0rg6MEtvKpIKv/BUILDER-BUDDY?node-id=1-3&p=f&t=puL6jC6U2CHf87bC-1&scaling=contain&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A3&show-proto-sidebar=1">
+                        <div class="project-img placeholder-e"></div>
+                        <div class="project-info">
+                            <h3>Builder Buddy</h3>
+                            <p>A construction management system designed to improve project efficiency and transparency through features such as automated cost estimation, task management, worker attendance tracking, and real-time progress monitoring.</p>
+                            <div class="card-links">
+                                <a href="https://www.figma.com/proto/TiaMTjEZe0rg6MEtvKpIKv/BUILDER-BUDDY?node-id=1-3&p=f&t=puL6jC6U2CHf87bC-1&scaling=contain&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A3&show-proto-sidebar=1" target="_blank" class="card-link" onclick="event.stopPropagation()">🔗 Live Demo</a>
+                                <a href="https://github.com/kumay112/Builder-Buddy" target="_blank" class="card-link" onclick="event.stopPropagation()">💻 GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="project-card" data-image="placeholder-f" data-title="Multi-Company Computer Network Design and Implementation" data-desc="The design, implementation, and testing of the multi-company network were successfully completed, meeting all specified requirements and ensuring reliable connectivity and network services across all companies." data-github="https://github.com/kumay112/Multi-Company-Computer-Network-Design-and-Implementation">
+                        <div class="project-img placeholder-f"></div>
+                        <div class="project-info">
+                            <h3>Multi-Company Computer Network Design and Implementation</h3>
+                            <p>The design, implementation, and testing of the multi-company network were successfully completed, meeting all specified requirements and ensuring reliable connectivity and network services across all companies.</p>
+                        </div>
+                    </div>
+                    <div class="project-card" data-title="Database Design Project" data-image="placeholder-g" data-desc="Performed database normalization from First Normal Form (1NF) to Third Normal Form (3NF) to improve data integrity, reduce redundancy, and optimize database structure." data-github="https://github.com/kumay112/Database-Design-Project" >
+                        <div class="project-img placeholder-g"></div>
+                        <div class="project-info">
+                            <h3>Database Design Project</h3>
+                            <p>Performed database normalization from First Normal Form (1NF) to Third Normal Form (3NF) to improve data integrity, reduce redundancy, and optimize database structure.</p>
+                        </div>
+                    </div>
+                    <div class="project-card" data-title="Design and Simulation of a Simple RLC Rectifier Circuit for a Microhydro LED System" data-image="placeholder-h" data-desc="Designed and simulated a simple RLC rectifier circuit for a microhydro LED system to optimize power conversion efficiency." data-github="https://github.com/kumay112/Design-and-Simulation-of-a-Simple-RLC-Rectifier-Circuit-for-a-Microhydro-LED-System" data-live="#">
+                        <div class="project-img placeholder-h"></div>
+                        <div class="project-info">
+                            <h3>Design and Simulation of a Simple RLC Rectifier Circuit for a Microhydro LED System</h3>
+                            <p>Designed and simulated a simple RLC rectifier circuit for a microhydro LED system to optimize power conversion efficiency.</p>
+                        </div>
+                    </div>
+                    <div class="project-card" data-title="Dummy Project 7" data-image="placeholder-1" data-desc="This is a dummy project to demonstrate the Show More feature." data-github="#" data-live="#">
+                        <div class="project-img placeholder-1"></div>
+                        <div class="project-info">
+                            <h3>Dummy Project 7</h3>
+                            <p>This is a placeholder for your future project.</p>
+                        </div>
+                    </div>
+                    <div class="project-card" data-title="Dummy Project 8" data-image="placeholder-2" data-desc="This is a dummy project to demonstrate the Show More feature." data-github="#" data-live="#">
+                        <div class="project-img placeholder-2"></div>
+                        <div class="project-info">
+                            <h3>Dummy Project 8</h3>
+                            <p>This is a placeholder for your future project.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="load-more-container">
+                    <button id="load-more-projects" class="btn btn-outline">Show More ⬇️</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="gallery">
+            <div class="container reveal">
+                <h2>Gallery & Moments 📸</h2>
+                <p style="text-align: center; color: var(--text-muted); margin-bottom: 3rem;">Snapshots from various events, competitions, and workshops.</p>
+                <div class="gallery-grid">
+                    <!-- Ganti class placeholder-1/2/3 atau tambahkan background-image pada style inline untuk fotomu -->
+                   <div class="gallery-item placeholder-1">
+                        <div class="gallery-overlay">interviews with religious figures</div>
+                    </div>
+                    <div class="gallery-item placeholder-2">
+                        <div class="gallery-overlay">Beach Cleaning</div>
+                    </div>
+                    <div class="gallery-item placeholder-3">
+                        <div class="gallery-overlay">Presentation - Impact of Land Conversion</div>
+                    </div>
+                    <div class="gallery-item placeholder-4">
+                        <div class="gallery-overlay">painting kindergarten play equipment</div>
+                    </div>
+                    <div class="gallery-item placeholder-5">
+                        <div class="gallery-overlay">School Awareness - Hazards of Smoking</div>
+                    </div>
+                    <div class="gallery-item placeholder-6">
+                        <div class="gallery-overlay">Gathering - We Grow Together</div>
+                    </div>
+                    <div class="gallery-item placeholder-1">
+                        <div class="gallery-overlay">Dummy Gallery 7</div>
+                    </div>
+                    <div class="gallery-item placeholder-2">
+                        <div class="gallery-overlay">Dummy Gallery 8</div>
+                    </div>
+                </div>
+                <div class="load-more-container">
+                    <button id="load-more-gallery" class="btn btn-outline">Show More ⬇️</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact">
+            <div class="container reveal">
+                <h2>Let's Connect ☕</h2>
+                <p>Have an internship offer, project idea, or just want to say hi? Don't hesitate to send me a message. I am always open to new discussions!</p>
+                
+                <div class="social-links">
+                    <a href="mailto:juanmilton006@gmail.com" class="social-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        Email
+                    </a>
+                    <a href="https://github.com/kumay112" target="_blank" class="social-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                        GitHub
+                    </a>
+                    <a href="https://linkedin.com/" target="_blank" class="social-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                        LinkedIn
+                    </a>
+                </div>
+
+                <form class="contact-form" action="https://formspree.io/f/mbdnwqyp" method="POST">
+                    <input type="text" name="nama" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <textarea name="pesan" placeholder="Your Message..." rows="5" required></textarea>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Juan Milton. Built with dedication & passion for learning. ✨</p>
+    </footer>
+
+    <!-- Project Modal Overlay -->
+    <div id="project-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div id="modal-img" class="modal-img"></div>
+            <h3 id="modal-title">Project Title</h3>
+            <p id="modal-desc">Detailed project description will appear here.</p>
+            
+            <div id="modal-problem-container" style="margin-top: 1.5rem; display: none; text-align: left; background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px; border-left: 4px solid var(--primary-color);">
+                <h4 style="color: var(--primary-color); margin-bottom: 0.5rem; font-size: 1.1rem;">🎯 The Problem Solved</h4>
+                <p id="modal-problem" style="color: var(--text-main); font-size: 0.95rem; margin-bottom: 0;"></p>
+            </div>
+
+            <div class="modal-buttons" style="margin-top: 2rem;">
+                <a href="#" id="modal-live" target="_blank" class="btn btn-primary">Live Demo</a>
+                <a href="#" id="modal-github" target="_blank" class="btn btn-outline">View GitHub</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
