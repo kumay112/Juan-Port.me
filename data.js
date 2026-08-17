@@ -105,7 +105,7 @@ const projectsData = [
 ];
 
 const galleryData = [
-    { "imageClass": "assets/Gallery/Wawancara_tokoh_Agama.jpg", "caption": "iInterviews with Religious Figures" },
+    { "imageClass": "assets/Gallery/Wawancara_Tokoh_Agama.jpg", "caption": "Interviews with Religious Figures" },
     { "imageClass": "assets/Gallery/Membersihkan_Pantai.jpg", "caption": "Beach Cleaning" },
     { "imageClass": "assets/Gallery/Presentasi_dampak_konversi_lahan.jpg", "caption": "Presentation - Impact of Land Conversion" },
     { "imageClass": "assets/Gallery/Pengecatan_Alat_Bermain.jpeg", "caption": "Painting Kindergarten Play Equipment" },
