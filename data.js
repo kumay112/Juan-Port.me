@@ -1,16 +1,24 @@
 const experienceData = [
-    {
+   {
         "position": "left",
+        "title": "Activist KMK Bekasi",
+        "subtitle": "Sports and Arts division",
+        "description": "Planned and executed various events and activities to promote sports and arts within the community."
+    },
+    {
+        "position": "right",
         "title": "Head of Event Committee",
         "subtitle": "\"We Grow Together\" Gathering",
         "description": "Managed event planning and coordinated committee members to ensure the successful delivery and execution of the gathering."
     },
     {
-        "position": "right",
+        "position": "left",
         "title": "Treasurer",
         "subtitle": "New Student Admission Committee (KMK Bekasi)",
         "description": "Handled budget allocation, expense monitoring, and financial accountability for KMK New Student Admission activities in the Bekasi Region."
     }
+    
+
 ];
 
 const projectsData = [
@@ -112,5 +120,7 @@ const galleryData = [
     { "imageClass": "assets/Gallery/Sosialisasi_Sekolah.jpeg", "caption": "School Awareness - Hazards of Smoking" },
     { "imageClass": "assets/Gallery/Organization_Epo.jpeg", "caption": "Organization Expo - Student B30" },
     { "imageClass": "assets/Gallery/We_Grow_Together.jpg", "caption": "Gathering - We Grow Together" },
-    { "imageClass": "assets/Gallery/Faith_that_Unites,_Love_that_Grows.jpeg", "caption": "Faith that Unites, Love that Grows" }
+    { "imageClass": "assets/Gallery/Faith_that_Unites,_Love_that_Grows.jpeg", "caption": "Faith that Unites, Love that Grows" },
+    { "imageClass": "assets/Gallery/Company_Visit_Garena.png", "caption": "Company Visit - Garena" },
+    { "imageClass": "assets/Gallery/Company_Visit_Krom.jpg", "caption": "Company Visit - Krom Bank" }
 ];

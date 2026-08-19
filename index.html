@@ -21,9 +21,7 @@
 <body>
 
     <div id="preloader">
-
-        <div class="logo preloader-logo">JM</div>
-
+        <img src="assets/Foto_Profil.jpeg" alt="Loading" class="preloader-profile">
     </div>
 
     <div id="cursor-dot"></div>
@@ -34,23 +32,7 @@
 
     <div class="solar-system" id="solar-system">
 
-        <div class="earth-orbit">
-
-            <div class="earth-container">
-
-                <div class="earth-globe"></div>
-
-                <div class="moon-orbit">
-
-                    <div class="moon-container">
-
-                        <div class="moon-globe"></div>
-
-                    </div>
-
-                </div>
-
-            </div>
+        
 
         </div>
 
@@ -92,6 +74,8 @@
     </nav>
 
     <main>
+        
+        <!-- Background Animation Elements injected via JS -->
 
         <!-- Hero Section -->
         <section id="home" class="hero">
@@ -133,11 +117,12 @@
 
                 <h2>About Me</h2>
 
-                <div class="about-grid">
+                <p class="about-description">Currently pursuing a Bachelor of Computer Science at Bina Nusantara University. My coursework includes Software Engineering, Machine Learning, Human Computer Interaction, Database Technology, and Algorithm Programming. I am always exploring new technologies, from full-stack web development to IoT and Robotics.</p>
+                  <div class="about-grid">
 
                     <div class="about-text">
 
-                        <p>Currently pursuing a Bachelor of Computer Science at Bina Nusantara University. My coursework includes Software Engineering, Machine Learning, Human Computer Interaction, Database Technology, and Algorithm Programming. I am always exploring new technologies, from full-stack web development to IoT and Robotics.</p>
+                        
 
                         <ul class="skills">
 
@@ -174,6 +159,13 @@
                             <p>Bina Nusantara Univ.</p>
 
                         </div>
+                        <div class="glass-card">
+
+                            <h3>10+</h3>
+
+                            <p>Projects Completed</p>
+
+                        </div>
 
                     </div>
 
@@ -198,6 +190,8 @@
 
         </section>
 
+        
+
         <!-- Projects Section -->
         <section id="projects" class="projects">
 
@@ -205,12 +199,10 @@
 
                 <h2>Featured Projects</h2>
 
-                <div class="project-grid" id="project-container"></div>
-
-                <div class="load-more-container">
-
-                    <button id="load-more-projects" class="btn btn-outline">Show More &#9662;</button>
-
+                <div class="slider-wrapper">
+                    <button class="nav-arrow left-arrow" id="proj-prev">&lt;</button>
+                    <div class="project-grid" id="project-container"></div>
+                    <button class="nav-arrow right-arrow" id="proj-next">&gt;</button>
                 </div>
 
             </div>
@@ -237,6 +229,7 @@
             </div>
 
         </section>
+        
 
         <!-- Contact Section -->
         <section id="contact" class="contact">
@@ -294,11 +287,13 @@
     </main>
 
     <!-- Footer -->
-    <footer>
-
-        <p>&copy; 2026 Juan Milton. </p>
-
+    
+    <footer class="modern-footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Juan Milton</p>
+        </div>
     </footer>
+
 
     <!-- Project Modal Overlay -->
     <div id="project-modal" class="modal-overlay">

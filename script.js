@@ -31,62 +31,6 @@ function renderExperience() {
 
 }
 
-function renderProjects() {
-
-    const container = document.getElementById('project-container');
-
-    if (!container) return;
-
-    let html = '';
-
-    projectsData.forEach((proj, index) => {
-
-        const displayStyle = index >= 6 ? 'style="display: none;"' : '';
-
-        const hiddenClass = index >= 6 ? 'hidden-project' : '';
-
-        let links = '';
-
-        if (proj.live && proj.live !== "#") {
-
-            links += `<a href="${proj.live}" target="_blank" class="card-link" onclick="event.stopPropagation()">&#8599; Live Demo</a>`;
-
-        }
-
-        if (proj.github && proj.github !== "#") {
-
-            links += `<a href="${proj.github}" target="_blank" class="card-link" onclick="event.stopPropagation()">&lt;/&gt; GitHub</a>`;
-
-        }
-
-        html += `
-
-        <div class="project-card" data-title="${proj.title}" data-image="${proj.image}" data-desc="${proj.desc}" data-problem="${proj.problem}" data-github="${proj.github}" data-live="${proj.live}">
-
-            <div class="project-img" style="background-image: url('${proj.image}');"></div>
-
-            <div class="project-info">
-
-                <h3>${proj.title}</h3>
-
-                <p>${proj.desc.substring(0, 100)}...</p>
-
-                <div class="card-links">
-
-                    ${links}
-
-                </div>
-
-            </div>
-
-        </div>`;
-
-    });
-
-    container.innerHTML = html;
-
-}
-
 function renderGallery() {
 
     const container = document.getElementById('gallery-container');
@@ -264,6 +208,11 @@ const closeModal = () => {
     modalOverlay.classList.remove('active');
 
     document.body.style.overflow = 'auto'; 
+
+    // Reset all zooming images when modal closes
+    document.querySelectorAll('.project-img.zooming-out').forEach(img => {
+        img.classList.remove('zooming-out');
+    });
 
 };
 
@@ -454,15 +403,17 @@ const preloader = document.getElementById('preloader');
 if (preloader) {
 
     window.addEventListener('load', () => {
-
         setTimeout(() => {
-
-            preloader.style.opacity = '0';
-
-            preloader.style.visibility = 'hidden';
-
-        }, 1500); 
-
+            const profile = document.querySelector('.preloader-profile');
+            if(profile) {
+                profile.classList.add('zoom-fade-anim');
+            }
+            
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                preloader.style.visibility = 'hidden';
+            }, 800); // Wait for zoom animation to finish
+        }, 800); // Initial delay before zoom starts
     });
 
 }
@@ -658,41 +609,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setupPagination('.gallery-grid', 'load-more-gallery');
 
-    const projectGrid = document.querySelector('.project-grid');
-
-    if (projectGrid) {
-
-        let scrollTimeout;
-
-        projectGrid.addEventListener('wheel', (e) => {
-
-            const isScrollable = projectGrid.scrollWidth > projectGrid.clientWidth;
-
-            if (isScrollable) {
-
-                const atStart = projectGrid.scrollLeft <= 0 && e.deltaY < 0;
-
-                const atEnd = Math.ceil(projectGrid.scrollLeft) >= (projectGrid.scrollWidth - projectGrid.clientWidth) && e.deltaY > 0;
-
-                if (!atStart && !atEnd) {
-
-                    e.preventDefault();
-
-                    projectGrid.scrollBy({
-
-                        left: e.deltaY * 4, 
-
-                        behavior: 'smooth'
-
-                    });
-
-                }
-
-            }
-
-        }, { passive: false });
-
-    }
+    // Horizontal scroll removed
 
 });
 
@@ -727,3 +644,486 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 });
+
+
+
+
+
+
+// Modal Delegation
+document.addEventListener('click', (e) => {
+    // If the user was just dragging the carousel, don't open the modal!
+    if (isDragging) {
+        // Reset dragging state but ignore the click
+        isDragging = false;
+        return;
+    }
+    
+    const card = e.target.closest('.project-card');
+    if (!card) return;
+    
+    // Ignore clicks on links inside the card
+    if (e.target.closest('a')) return;
+
+    const title = card.getAttribute('data-title');
+    const desc = card.getAttribute('data-desc');
+    const imageClass = card.getAttribute('data-image');
+    const github = card.getAttribute('data-github');
+    const live = card.getAttribute('data-live');
+    const problem = card.getAttribute('data-problem');
+    
+    const modalProblemContainer = document.getElementById('modal-problem-container');
+    const modalProblemText = document.getElementById('modal-problem');
+    
+    document.getElementById('modal-title').textContent = title;
+    document.getElementById('modal-desc').textContent = desc;
+    
+    if (problem) {
+        modalProblemText.textContent = problem;
+        modalProblemContainer.style.display = 'block';
+    } else {
+        modalProblemContainer.style.display = 'none';
+    }
+    
+    const modalImg = document.getElementById('modal-img');
+    modalImg.className = 'modal-img';
+    modalImg.style.backgroundImage = `url('${imageClass}')`;
+    
+    const modalLive = document.getElementById('modal-live');
+    if (live && live !== '#') {
+        modalLive.style.display = 'inline-flex';
+        modalLive.href = live;
+    } else {
+        modalLive.style.display = 'none';
+    }
+    
+    const modalGithub = document.getElementById('modal-github');
+    if (github && github !== '#') {
+        modalGithub.style.display = 'inline-flex';
+        modalGithub.href = github;
+    } else {
+        modalGithub.style.display = 'none';
+    }
+    
+    const modalOverlay = document.getElementById('project-modal');
+    modalOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Stop background scrolling
+});
+
+
+// --- 3D Hover Tilt Effect ---
+// Completely removed as requested by user to revert to CSS-only animations and prevent jitter.
+
+let currentProjIndex = 0;
+
+function renderProjects() {
+    const container = document.getElementById('project-container');
+    if (!container) return;
+    
+    let html = '';
+    projectsData.forEach((proj, index) => {
+        let activeClass = index === 0 ? 'active' : 'flipped-right';
+        html += `
+            <div class="project-card ${activeClass}" data-index="${index}" data-title="${proj.title}" data-image="${proj.image}" data-desc="${proj.desc}" data-problem="${proj.problem}" data-github="${proj.github}" data-live="${proj.live}">
+                <img src="${proj.image}" alt="${proj.title}" class="project-img" loading="lazy">
+                <div class="project-overlay">
+                    <h3 class="front-title">${proj.title}</h3>
+                </div>
+                <div class="view-details-hint">View Details <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+    
+    // Create pagination dots
+    const dotsContainer = document.createElement('div');
+    dotsContainer.className = 'carousel-dots';
+    let dotsHtml = '';
+    projectsData.forEach((_, idx) => {
+        dotsHtml += `<div class="dot ${idx === 0 ? 'active' : ''}" data-target="${idx}"></div>`;
+    });
+    dotsContainer.innerHTML = dotsHtml;
+    // Insert dots after the slider wrapper
+    const wrapper = document.querySelector('.slider-wrapper');
+    if(wrapper && !document.querySelector('.carousel-dots')) {
+        wrapper.parentNode.insertBefore(dotsContainer, wrapper.nextSibling);
+    }
+    
+    initPageTurnLogic();
+    attachModalClick();
+}
+
+function initPageTurnLogic() {
+    const prevBtn = document.getElementById('proj-prev');
+    const nextBtn = document.getElementById('proj-next');
+    const cards = document.querySelectorAll('.project-card');
+    const dots = document.querySelectorAll('.dot');
+    
+    function showProject(newIndex, direction = 'next') {
+        if (newIndex === currentProjIndex) return;
+        
+        const currentCard = cards[currentProjIndex];
+        const nextCard = cards[newIndex];
+        
+        // Remove active from old card
+        currentCard.classList.remove('active');
+        // If moving next, old card flips to left. If moving prev, old card flips to right.
+        if (direction === 'next') {
+            currentCard.style.transformOrigin = 'left center';
+            currentCard.classList.add('flipped-left');
+            currentCard.classList.remove('flipped-right');
+            
+            nextCard.style.transformOrigin = 'right center';
+            nextCard.classList.remove('flipped-left');
+            nextCard.classList.add('flipped-right');
+        } else {
+            currentCard.style.transformOrigin = 'right center';
+            currentCard.classList.add('flipped-right');
+            currentCard.classList.remove('flipped-left');
+            
+            nextCard.style.transformOrigin = 'left center';
+            nextCard.classList.remove('flipped-right');
+            nextCard.classList.add('flipped-left');
+        }
+        
+        // Force reflow
+        void nextCard.offsetWidth;
+        
+        // Bring in new card
+        nextCard.classList.add('active');
+        nextCard.classList.remove('flipped-left', 'flipped-right');
+        
+        // Update dots
+        dots.forEach(d => d.classList.remove('active'));
+        dots[newIndex].classList.add('active');
+        
+        currentProjIndex = newIndex;
+    }
+    
+    
+    // Mousewheel to flip
+    const sliderWrapper = document.querySelector('.slider-wrapper');
+    let isWheeling = false;
+    
+    if (sliderWrapper) {
+        sliderWrapper.addEventListener('wheel', (e) => {
+            e.preventDefault(); // Mencegah halaman turun
+            
+            if (isWheeling) return;
+            isWheeling = true;
+            
+            if (e.deltaY > 0) {
+                // Scroll down -> Next
+                let nextIdx = currentProjIndex + 1;
+                if (nextIdx >= cards.length) nextIdx = 0;
+                showProject(nextIdx, 'next');
+            } else {
+                // Scroll up -> Prev
+                let nextIdx = currentProjIndex - 1;
+                if (nextIdx < 0) nextIdx = cards.length - 1;
+                showProject(nextIdx, 'prev');
+            }
+            
+            // Throttle wheel event to prevent rapid flipping
+            setTimeout(() => {
+                isWheeling = false;
+            }, 1000); // 1 detik cooldown
+        }, { passive: false });
+    }
+
+    if (prevBtn && nextBtn) {
+        prevBtn.addEventListener('click', () => {
+            let nextIdx = currentProjIndex - 1;
+            if (nextIdx < 0) nextIdx = cards.length - 1; // loop
+            showProject(nextIdx, 'prev');
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            let nextIdx = currentProjIndex + 1;
+            if (nextIdx >= cards.length) nextIdx = 0; // loop
+            showProject(nextIdx, 'next');
+        });
+    }
+    
+    dots.forEach((dot, idx) => {
+        dot.addEventListener('click', () => {
+            if (idx > currentProjIndex) showProject(idx, 'next');
+            else if (idx < currentProjIndex) showProject(idx, 'prev');
+        });
+    });
+}
+
+function attachModalClick() {
+    document.querySelectorAll('.project-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            const modal = document.getElementById('project-modal');
+            const modalImg = document.getElementById('modal-img');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDesc = document.getElementById('modal-desc');
+            const modalProblem = document.getElementById('modal-problem');
+            const modalLive = document.getElementById('modal-live');
+            const modalGithub = document.getElementById('modal-github');
+            
+            if (!modal) return;
+            
+            modalImg.style.backgroundImage = `url('${card.getAttribute('data-image')}')`;
+            modalTitle.textContent = card.getAttribute('data-title');
+            modalDesc.textContent = card.getAttribute('data-desc');
+            
+            const prob = card.getAttribute('data-problem');
+            if (prob && prob !== "undefined") {
+                modalProblem.innerHTML = `<strong>Problem Solved:</strong> ${prob}`;
+                modalProblem.style.display = 'block';
+            } else {
+                modalProblem.style.display = 'none';
+            }
+            
+            const live = card.getAttribute('data-live');
+            if (live && live !== "#" && live !== "undefined") {
+                modalLive.href = live;
+                modalLive.style.display = 'inline-block';
+            } else {
+                modalLive.style.display = 'none';
+            }
+            
+            const github = card.getAttribute('data-github');
+            if (github && github !== "#" && github !== "undefined") {
+                modalGithub.href = github;
+                modalGithub.style.display = 'inline-block';
+            } else {
+                modalGithub.style.display = 'none';
+            }
+            
+            // Add zooming animation to the image
+            const imgElement = card.querySelector('.project-img');
+            if (imgElement) {
+                imgElement.classList.add('zooming-out');
+            }
+            
+            // Delay modal appearance by 800ms for the slower animation
+            setTimeout(() => {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }, 800);
+        });
+    });
+}
+
+
+// --- Autonomous Comets Logic ---
+document.addEventListener('DOMContentLoaded', () => {
+    const cometConfigs = [
+        { color: 'rgba(0, 240, 255, 0.8)', size: 35 },    // Ice Comet (Cyan) - Medium
+        { color: 'rgba(255, 100, 50, 0.8)', size: 50 },   // Fire Comet (Orange) - Big
+        { color: 'rgba(200, 50, 255, 0.8)', size: 20 }    // Plasma Comet (Purple) - Small
+    ];
+
+    const svgTemplate = `
+        <svg class="comet-svg" viewBox="0 0 24 24" fill="#94a3b8" stroke="#cbd5e1" stroke-width="1">
+            <path d="M10,2 L18,5 L22,12 L19,20 L11,22 L3,17 L2,9 L6,3 Z"></path>
+            <circle cx="8" cy="10" r="2" fill="#64748b"></circle>
+            <circle cx="16" cy="14" r="3" fill="#64748b"></circle>
+            <circle cx="12" cy="18" r="1.5" fill="#64748b"></circle>
+        </svg>
+    `;
+
+    cometConfigs.forEach((config, index) => {
+        // Create Comet Container
+        const comet = document.createElement('div');
+        comet.className = 'comet-container';
+        comet.innerHTML = svgTemplate;
+        
+        // Apply size
+        comet.style.width = `${config.size}px`;
+        comet.style.height = `${config.size}px`;
+        
+        // Apply glow color
+        const svgElement = comet.querySelector('.comet-svg');
+        svgElement.style.filter = `drop-shadow(0 0 10px ${config.color})`;
+        
+        document.body.appendChild(comet);
+        
+        // Give them staggered starting positions and delays
+        let currentX = (window.innerWidth / 4) * (index + 1);
+        let currentY = 100 + (index * 50);
+        
+        // Set initial position immediately without transition
+        comet.style.transition = 'none';
+        comet.style.transform = `translate(${currentX}px, ${currentY}px)`;
+        
+        // Force reflow so transition applies to next move
+        comet.offsetHeight; 
+        comet.style.transition = 'transform 10s ease-in-out';
+        
+        // Start emitting smoke continuously
+        setInterval(() => {
+            // Get CURRENT computed position of comet for smoke
+            const rect = comet.getBoundingClientRect();
+            // Get actual scroll position to place smoke absolutely on document
+            const scrollY = window.scrollY || window.pageYOffset;
+            const scrollX = window.scrollX || window.pageXOffset;
+            
+            const smoke = document.createElement('div');
+            smoke.className = 'smoke-particle';
+            
+            // Scale smoke relative to comet size
+            smoke.style.width = `${config.size / 2.5}px`;
+            smoke.style.height = `${config.size / 2.5}px`;
+            
+            // Tint the smoke slightly with the comet's color using a box-shadow or background
+            // Background is radial gradient in CSS, we can overwrite it inline
+            // To make it look good, we mix white with the comet's color
+            const rawColor = config.color.replace('0.8)', '0.4)'); // Make it more transparent
+            smoke.style.background = `radial-gradient(circle, ${rawColor} 0%, rgba(255,255,255,0) 70%)`;
+            
+            // Place at center of comet
+            smoke.style.left = (rect.left + scrollX + rect.width / 2) + 'px';
+            smoke.style.top = (rect.top + scrollY + rect.height / 2) + 'px';
+            
+            document.body.appendChild(smoke);
+            
+            // Remove smoke after animation finishes (2s)
+            setTimeout(() => {
+                if (smoke.parentNode) {
+                    smoke.parentNode.removeChild(smoke);
+                }
+            }, 2000);
+        }, 300); // emit smoke every 300ms
+        
+        function moveComet() {
+            // Find bounds
+            const aboutSection = document.getElementById('about');
+            const maxY = aboutSection ? aboutSection.offsetTop + 200 : window.innerHeight; // Don't go below asteroids
+            const maxX = window.innerWidth - 100;
+            
+            // Pick new random target
+            const targetX = Math.random() * maxX + 50;
+            const targetY = Math.random() * maxY;
+            
+            // Calculate angle to target
+            const dx = targetX - currentX;
+            const dy = targetY - currentY;
+            
+            // 0 is right, PI/2 is down.
+            let angleDeg = Math.atan2(dy, dx) * (180 / Math.PI);
+            
+            // Move the comet!
+            comet.style.transform = `translate(${targetX}px, ${targetY}px) rotate(${angleDeg}deg)`;
+            
+            currentX = targetX;
+            currentY = targetY;
+            
+            // Schedule next movement immediately when this one finishes (10s)
+            setTimeout(moveComet, 10000);
+        }
+        
+        // Start movement with staggered delay based on index
+        setTimeout(moveComet, 100 + (index * 2000));
+    });
+});
+
+
+
+// --- Autonomous Satellites Logic ---
+document.addEventListener('DOMContentLoaded', () => {
+    // We need SVGs for two types of satellites
+    const svgSputnik = `
+        <svg class="satellite-svg" viewBox="0 0 24 24" fill="none" stroke="#e2e8f0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4" fill="#94a3b8"></circle>
+            <path d="M12 8V2" />
+            <path d="M12 16v6" />
+            <path d="M8 12H2" />
+            <path d="M16 12h6" />
+            <path d="M9.17 9.17L4.93 4.93" />
+            <path d="M14.83 14.83l4.24 4.24" />
+            <path d="M14.83 9.17l4.24-4.24" />
+            <path d="M9.17 14.83l-4.24 4.24" />
+        </svg>
+    `;
+
+    const svgModern = `
+        <svg class="satellite-svg" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-linejoin="round">
+            <!-- Solar panel left -->
+            <rect x="2" y="9" width="5" height="6" fill="#1e293b" stroke="#64748b"></rect>
+            <!-- Solar panel right -->
+            <rect x="17" y="9" width="5" height="6" fill="#1e293b" stroke="#64748b"></rect>
+            <!-- Body -->
+            <rect x="9" y="7" width="6" height="10" rx="1" fill="#94a3b8"></rect>
+            <!-- Antennas -->
+            <path d="M12 7V3" />
+            <path d="M10 3h4" />
+            <!-- Connections -->
+            <path d="M7 12h2" />
+            <path d="M15 12h2" />
+        </svg>
+    `;
+
+    const satelliteConfigs = [
+        { type: 'sputnik', size: 30, svg: svgSputnik },
+        { type: 'modern', size: 55, svg: svgModern }
+    ];
+
+    satelliteConfigs.forEach((config, index) => {
+        // Wait a bit to ensure dividers are fully rendered before calculating bounds
+        setTimeout(() => {
+            const expSection = document.getElementById('experience');
+            const galSection = document.getElementById('gallery');
+            const minY = expSection ? expSection.offsetTop : 1000;
+            const maxY = galSection ? galSection.offsetTop : 3000;
+            const maxX = window.innerWidth - 100;
+            
+            // If the section is too small, abort
+            if (maxY <= minY) return;
+
+            // Create Satellite Container
+            const satellite = document.createElement('div');
+            satellite.className = 'satellite-container';
+            satellite.innerHTML = config.svg;
+            
+            // Apply size
+            satellite.style.width = `${config.size}px`;
+            satellite.style.height = `${config.size}px`;
+            
+            document.body.appendChild(satellite);
+            
+            // Give them staggered starting positions
+            let currentX = (window.innerWidth / 3) * (index + 1);
+            let currentY = minY + ((maxY - minY) / 2) + (index * 100);
+            
+            // Set initial position immediately without transition
+            satellite.style.transition = 'none';
+            satellite.style.transform = `translate(${currentX}px, ${currentY}px)`;
+            
+            // Force reflow
+            satellite.offsetHeight; 
+            satellite.style.transition = 'transform 20s linear';
+            
+            function moveSatellite() {
+                // Re-calculate bounds in case window resized
+                const currentExp = document.getElementById('experience');
+                const currentGal = document.getElementById('gallery');
+                const safeMinY = currentExp ? currentExp.offsetTop : 1000;
+                const safeMaxY = currentGal ? currentGal.offsetTop : 3000;
+                const safeMaxX = window.innerWidth - 80;
+                
+                // Pick new random target within bounds
+                const targetX = Math.random() * safeMaxX + 40;
+                const targetY = safeMinY + (Math.random() * (safeMaxY - safeMinY));
+                
+                // Move the satellite
+                satellite.style.transform = `translate(${targetX}px, ${targetY}px)`;
+                
+                currentX = targetX;
+                currentY = targetY;
+                
+                // Schedule next movement immediately when this one finishes (20s)
+                setTimeout(moveSatellite, 20000);
+            }
+            
+            // Start movement
+            setTimeout(moveSatellite, 100 + (index * 5000));
+        }, 1000); // 1s delay to let DOM stabilize
+    });
+});
+
