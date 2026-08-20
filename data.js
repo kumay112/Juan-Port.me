@@ -7,6 +7,18 @@ const experienceData = [
     },
     {
         "position": "right",
+        "title": "Member of Teach for Indonesia Student Community (TFISC)",
+        "subtitle": "",
+        "description": "Developed communication, teamwork, and organizational skills through active participation in various activities."
+    },
+    {
+        "position": "left",
+        "title": "Member of Himpunan Mahasiswa Teknik Informatika (HIMTI)",
+        "subtitle": "",
+        "description": "Collaborated with fellow members to support event execution and foster a collaborative organizational environment."
+    },
+    {
+        "position": "right",
         "title": "Head of Event Committee",
         "subtitle": "\"We Grow Together\" Gathering",
         "description": "Managed event planning and coordinated committee members to ensure the successful delivery and execution of the gathering."
@@ -122,5 +134,18 @@ const galleryData = [
     { "imageClass": "assets/Gallery/We_Grow_Together.jpg", "caption": "Gathering - We Grow Together" },
     { "imageClass": "assets/Gallery/Faith_that_Unites,_Love_that_Grows.jpeg", "caption": "Faith that Unites, Love that Grows" },
     { "imageClass": "assets/Gallery/Company_Visit_Garena.png", "caption": "Company Visit - Garena" },
-    { "imageClass": "assets/Gallery/Company_Visit_Krom.jpg", "caption": "Company Visit - Krom Bank" }
+    { "imageClass": "assets/Gallery/Company_Visit_Krom.jpg", "caption": "Company Visit - Krom Bank" },
+    { "imageClass": "assets/Gallery/Badminton_Funmatch.jpeg", "caption": "Badminton Funmatch" }
+];
+
+
+// --- Certificate Data ---
+const certificateData = [// Tambahkan sertifikat Anda di sini
+    { "title": "Basic Hacking Mobile Application: Android Penetration Testing", "issuer": "ITBOX", "image": "assets/Certificates/ITBOX1.jpg" },
+    { "title": "DDOS & Wireless Hacking for Pentester", "issuer": "ITBOX", "image": "assets/Certificates/ITBOX2.jpg" },
+    { "title": "Basic Hacking Web Application: SQL Injection untuk Web Security", "issuer": "ITBOX", "image": "assets/Certificates/ITBOX3.jpg" },
+    { "title": "Bahasa C untuk Ethical Hacking", "issuer": "ITBOX", "image": "assets/Certificates/ITBOX4.jpg" },
+    { "title": "Python untuk Ethical Hacking", "issuer": "ITBOX", "image": "assets/Certificates/ITBOX5.jpg" },
+    { "title": " C# untuk Ethical Hacking", "issuer": "ITBOX", "image": "assets/Certificates/ITBOX6.jpg" },
+    
 ];

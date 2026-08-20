@@ -89,7 +89,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 });
 
-const revealElements = document.querySelectorAll('.reveal');
+
 
 // --- Scroll Reveal Animations ---
 const revealOnScroll = () => {
@@ -98,7 +98,7 @@ const revealOnScroll = () => {
 
     const elementVisible = 120; 
 
-    revealElements.forEach(element => {
+    document.querySelectorAll('.reveal').forEach(element => {
 
         const elementTop = element.getBoundingClientRect().top;
 
@@ -603,15 +603,7 @@ const setupPagination = (gridSelector, btnId) => {
 
 };
 
-document.addEventListener('DOMContentLoaded', () => {
 
-    setupPagination('.project-grid', 'load-more-projects');
-
-    setupPagination('.gallery-grid', 'load-more-gallery');
-
-    // Horizontal scroll removed
-
-});
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -1127,3 +1119,69 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+
+// Render Certificates
+function renderCertificates() {
+    const certContainer = document.getElementById('certificate-container');
+    if (!certContainer || typeof certificateData === 'undefined') return;
+
+    if (certificateData.length === 0) {
+        certContainer.innerHTML = '<p style="color: var(--text-muted); text-align: center; grid-column: 1 / -1;">Belum ada sertifikat yang ditambahkan.</p>';
+        return;
+    }
+
+    certificateData.forEach(cert => {
+        const card = document.createElement('div');
+        card.className = 'gallery-item reveal';
+        card.style.backgroundImage = `url('${cert.image}')`;
+        
+        card.innerHTML = `
+            <div class="gallery-overlay">${cert.title} - ${cert.issuer}</div>
+        `;
+        
+        const cursorRing = document.getElementById('cursor-ring');
+        if (cursorRing) {
+            card.addEventListener('mouseenter', () => cursorRing.classList.add('hover-effect'));
+            card.addEventListener('mouseleave', () => cursorRing.classList.remove('hover-effect'));
+        }
+        
+        // Add click event for modal viewing
+        card.addEventListener('click', () => {
+            const modal = document.getElementById('cert-modal');
+            const modalBody = document.getElementById('cert-modal-body');
+            modalBody.innerHTML = `
+                <img src="${cert.image}" alt="${cert.title}" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;">
+                <h2 style="color: var(--text-main); margin-bottom: 0.5rem;">${cert.title}</h2>
+                <p style="color: var(--text-muted); margin-bottom: 1.5rem;">${cert.issuer}</p>
+                <a href="${cert.image}" download="${cert.title}" class="btn btn-outline" style="display: inline-block; width: 100%; text-align: center; box-sizing: border-box;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 5px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Download Certificate
+                </a>
+            `;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        certContainer.appendChild(card);
+    });
+    revealOnScroll();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    renderCertificates();
+    setupPagination('#project-container', 'load-more-projects');
+    setupPagination('#gallery-container', 'load-more-gallery');
+    setupPagination('#certificate-container', 'load-more-certificates');
+});
+
+
+// Close cert modal when clicking outside
+const certModalOverlay = document.getElementById('cert-modal');
+if (certModalOverlay) {
+    certModalOverlay.addEventListener('click', (e) => {
+        if (e.target === certModalOverlay) {
+            certModalOverlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    });
+}

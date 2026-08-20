@@ -64,6 +64,7 @@
             <li><a href="#experience">Mission Log</a></li>
 
             <li><a href="#projects">Projects</a></li>
+                <li><a href="#certificates">Certificates</a></li>
 
             <li><a href="#gallery">Gallery</a></li>
 
@@ -210,6 +211,18 @@
         </section>
 
         <!-- Gallery Section -->
+
+        <section id="certificates" class="certificates">
+            <div class="container reveal">
+                <h2>Certificates & Achievements</h2>
+                <p style="text-align: center; color: var(--text-muted); margin-bottom: 3rem;">My professional certifications and completed courses.</p>
+                <div class="gallery-grid" id="certificate-container"></div>
+                  <div class="load-more-container">
+                      <button id="load-more-certificates" class="btn btn-outline">Show More &#9662;</button>
+                  </div>
+            </div>
+        </section>
+
         <section id="gallery" class="gallery">
 
             <div class="container reveal">
@@ -326,6 +339,15 @@
 
         </div>
 
+    </div>
+
+    
+    <!-- Certificate Modal Overlay -->
+    <div id="cert-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 600px; padding: 2rem;">
+            <button class="modal-close" onclick="document.getElementById('cert-modal').classList.remove('active'); document.body.style.overflow='auto';">&times;</button>
+            <div id="cert-modal-body"></div>
+        </div>
     </div>
 
     <script src="data.js"></script>
