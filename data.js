@@ -147,5 +147,6 @@ const certificateData = [// Tambahkan sertifikat Anda di sini
     { "title": "Bahasa C untuk Ethical Hacking", "issuer": "ITBOX", "image": "assets/Certificates/ITBOX4.jpg" },
     { "title": "Python untuk Ethical Hacking", "issuer": "ITBOX", "image": "assets/Certificates/ITBOX5.jpg" },
     { "title": " C# untuk Ethical Hacking", "issuer": "ITBOX", "image": "assets/Certificates/ITBOX6.jpg" },
+    { "title": " Introduction to Cloud", "issuer": "Cognitive Class", "image": "assets/Certificates/IBM-Cloud.pdf" },
     
 ];
